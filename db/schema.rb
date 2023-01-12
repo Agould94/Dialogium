@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_08_214348) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_10_191113) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -33,12 +33,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_08_214348) do
     t.integer "total_tokens"
   end
 
-  create_table "course_works", force: :cascade do |t|
-    t.integer "course_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "courses", force: :cascade do |t|
     t.string "title"
     t.integer "user_id"
@@ -54,7 +48,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_08_214348) do
     t.string "subject"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "course_id"
+    t.integer "section_id"
+    t.string "text"
   end
 
   create_table "notes", force: :cascade do |t|
@@ -62,6 +57,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_08_214348) do
     t.string "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "sections", force: :cascade do |t|
+    t.string "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "number"
   end
 
   create_table "user_courses", force: :cascade do |t|
@@ -82,12 +84,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_08_214348) do
   end
 
   create_table "videos", force: :cascade do |t|
-    t.integer "course_work_id"
     t.string "url"
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "lesson_id"
+    t.string "channel"
   end
 
 end

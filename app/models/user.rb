@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
     has_many :courses, through: :user_course
 
-
+    
 
     def full_name
         "#{first_name} #{last_name}"

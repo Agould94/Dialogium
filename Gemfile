@@ -56,3 +56,5 @@ end
 gem "ruby-openai"
 
 gem "active_model_serializers", "~> 0.10.13"
+
+gem 'net-http'
