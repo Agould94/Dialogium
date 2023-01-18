@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
     def create
-        user = User.find_by(first_name: params[:username])
+        user = User.find_by(first_name: params[:firstName])
         if user&.authenticate(params[:password])
           session[:user_id] = user.id
           puts "PUTS"
