@@ -1,5 +1,7 @@
 class CompletionsController < ApplicationController
 
+  before_action :logged_in?, only:[:generate_completion, :generate_lesson]
+
     def index
         completions = Completion.all
         render json: completions
@@ -44,9 +46,28 @@ class CompletionsController < ApplicationController
         
         completion = Completion.create(prompt: prompt, text: completions["choices"][0]["text"], topic: params[:topic], prompt_tokens: completions["usage"]["prompt_tokens"], completion_tokens: completions["usage"]["completion_tokens"], total_tokens: completions["usage"]["total_tokens"] )
         
-        course = Completion.generate_course_from_completion(completion.parse_completion, 1, topic: params[:topic])
-        render json: completion
+        course = Completion.generate_course_from_completion(completion.parse_completion, current_user.id, params[:topic])
+        render json: course
 
+    end
+
+    def generate_lesson
+      model = "text-davinci-003"
+        prompt = 'Pretend you are writing the text for a lesson in and online course on'+ params[:title] +'on the topic of'+ params[:topic]+', make sure to completely cover everything that goes into'+ params[:subject] +'.'
+        
+        client = OpenAI::Client.new
+        completions = client.completions(
+          parameters: {
+            model: model,
+            prompt: prompt,
+            max_tokens: 2048
+          }
+        )
+
+        usage = completions["usage"]["prompt_tokens"].class
+        lines = completions["choices"][0]["text"].split("\n")
+        
+        completion = Completion.create(prompt: prompt, text: completions["choices"][0]["text"], topic: params[:topic], prompt_tokens: completions["usage"]["prompt_tokens"], completion_tokens: completions["usage"]["completion_tokens"], total_tokens: completions["usage"]["total_tokens"] )
     end
 
 
