@@ -55,6 +55,12 @@ end
 
 gem "ruby-openai"
 
+gem 'yt', '~> 0.32.0'
+
+gem 'google-api-client', '~>0.7'
+
 gem "active_model_serializers", "~> 0.10.13"
 
 gem 'net-http'
+
+gem 'pry'
