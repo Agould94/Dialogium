@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { login } from "./userSlice";
 
-function SignUp(){
-  const [firstName, setfirstName] = useState("");
+function SignUp() {
+  const [firstName, setFirstName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [lastName, setLastName] = useState("");
   const dispatch = useDispatch();
-  
+
   function handleSubmit(e) {
     e.preventDefault();
     fetch("/signup", {
@@ -19,11 +19,11 @@ function SignUp(){
       body: JSON.stringify({
         first_name: firstName,
         last_name: lastName,
-        password,
+        password: password,
         password_confirmation: passwordConfirmation,
       }),
     }).then((r) => r.json())
-      .then((user)=>{
+      .then((user) => {
         dispatch(login(user))
       });
   }
@@ -38,8 +38,7 @@ function SignUp(){
           id="firstName"
           autoComplete="off"
           value={firstName}
-          onChange={(e) => setfirstName(e.target.value)}
-        />
+          onChange={(e) => setFirstName(e.target.value)}></input>
         <label htmlFor="lastName">Last Name</label>
         <input
           type="text"
