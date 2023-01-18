@@ -1,8 +1,11 @@
 import React, {useState, useEffect} from 'react'
+import CourseList from '../features/Courses/CourseList'
 
 function Home(props) {
   return (
-    <div>Home</div>
+    <div>
+      <CourseList></CourseList>
+    </div>
   )
 }
 
