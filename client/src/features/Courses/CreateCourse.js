@@ -1,25 +1,32 @@
 import React from "react";
 import {useState} from "react";
-import {Form, FormControl, Button} from 'react-bootstrap'
+//import {Form, FormControl, Button} from 'react-bootstrap'
+import Button from '@mui/material/Button';
+import {useHistory} from 'react-router-dom'
 
 function CreateCourse(){
     const [topic, setTopic] = useState("")
+    const history = useHistory()
 
     function handleSubmit(e){
-        e.preventDefault
+        e.preventDefault()
         fetch(`/completion?topic=${topic}`)
-        .then((r=>r.json))
-        .then()
+        .then((r)=>r.json())
+        .then(list =>{
+            history.push(`/courses/${list.id}`)
+        })
     }
     
     return(
         <div>
             <h2>Use This page to Generate a course on any topic of your choosing.</h2>
 
-           <Form onSubmit = {handleSubmit}>
-                <FormControl as = "input" type = "text" placeholder="Enter Topic" value = {topic} onChange = {(e)=>setTopic(e.target.value)}></FormControl>
-                <Button type = "submit">Submit</Button>
-           </Form>
+           <form onSubmit = {handleSubmit}>
+                <input type = "text" placeholder="Enter Topic" value = {topic} onChange = {(e)=>setTopic(e.target.value)}></input>
+                <Button variant = "contained" type = "submit">Submit</Button>
+           </form>
         </div>
     )
 }
+
+export default CreateCourse
