@@ -38,16 +38,56 @@ class Completion < ApplicationRecord
         s2 = course.sections.create(number: 2)
         s3 = course.sections.create(number: 3)
 
-        s1.lessons.create(name: oneA[:name], subject: oneA[:subject])
-        s1.lessons.create(name: oneB[:name], subject: oneB[:subject])
-        s1.lessons.create(name: oneC[:name], subject: oneC[:subject])
-        s2.lessons.create(name: twoA[:name], subject: twoA[:subject])
-        s2.lessons.create(name: twoB[:name], subject: twoB[:subject])
-        s2.lessons.create(name: twoC[:name], subject: twoC[:subject])
-        s3.lessons.create(name: threeA[:name], subject: threeA[:subject])
-        s3.lessons.create(name: threeB[:name], subject: threeB[:subject])
-        s3.lessons.create(name: threeC[:name], subject: threeC[:subject])
+       l1a = s1.lessons.create(name: oneA[:name], subject: oneA[:subject])
+       l1b = s1.lessons.create(name: oneB[:name], subject: oneB[:subject])
+       l1c = s1.lessons.create(name: oneC[:name], subject: oneC[:subject])
+       l2a = s2.lessons.create(name: twoA[:name], subject: twoA[:subject])
+       l2b = s2.lessons.create(name: twoB[:name], subject: twoB[:subject])
+       l2c = s2.lessons.create(name: twoC[:name], subject: twoC[:subject])
+       l3a = s3.lessons.create(name: threeA[:name], subject: threeA[:subject])
+       l3b = s3.lessons.create(name: threeB[:name], subject: threeB[:subject])
+       l3c = s3.lessons.create(name: threeC[:name], subject: threeC[:subject])
+        
+       
+    #    v1a = {url: oneA[:link], title: oneA[:video], channel: oneA[:channel]}
+    #    v1b = {url: oneB[:link], title: oneB[:video], channel: oneB[:channel]}
+    #    v1c = {url: oneC[:link], title: oneC[:video], channel: oneC[:channel]}
+    #    v2a = {url: twoA[:link], title: twoA[:video], channel: twoA[:channel]}
+    #    v2b = {url: twoB[:link], title: twoB[:video], channel: twoB[:channel]}
+    #    v2c = {url: twoC[:link], title: twoC[:video], channel: twoC[:channel]}
+    #    v3a = {url: threeA[:link], title: threeA[:video], channel: threeA[:channel]}
+    #    v3b = {url: threeB[:link], title: threeB[:video], channel: threeB[:channel]}
+    #    v3c = {url: threeC[:link], title: threeC[:video], channel: threeC[:channel]}
+        
+    #    if Video.link_valid?(v1a[:url])
+    #     l1a.videos.create(url: v1a[:url], title: v1a[:title], channel: v1a[:channel] )
+    #    end
+    #    if Video.link_valid?(v1b[:url])
+    #     l1b.videos.create(url: v1b[:url], title: v1b[:title], channel: v1b[:channel] )
+    #    end
+    #    if Video.link_valid?(v1c[:url])
+    #     l1c.videos.create(url: v1c[:url], title: v1c[:title], channel: v1c[:channel] )
+    #    end
+    #    if Video.link_valid?(v2a[:url])
+    #     l2a.videos.create(url: v2a[:url], title: v2a[:title], channel: v2a[:channel] )
+    #    end
+    #    if Video.link_valid?(v2b[:url])
+    #     l2b.videos.create(url: v2b[:url], title: v2b[:title], channel: v2b[:channel] )
+    #    end
+    #    if Video.link_valid?(v2c[:url])
+    #     l2c.videos.create(url: v2c[:url], title: v2c[:title], channel: v2c[:channel] )
+    #    end
+    #    if Video.link_valid?(v3a[:url])
+    #     l3a.videos.create(url: v3a[:url], title: v3a[:title], channel: v3a[:channel] )
+    #    end
+    #    if Video.link_valid?(v3b[:url])
+    #     l3b.videos.create(url: v3b[:url], title: v3b[:title], channel: v3b[:channel] )
+    #    end
+    #    if Video.link_valid?(v3c[:url])
+    #     l3c.videos.create(url: v3c[:url], title: v3c[:title], channel: v3c[:channel] )
+    #    end
 
+        
         return course
     end 
       
