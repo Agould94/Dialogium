@@ -7,7 +7,7 @@ class ApplicationController < ActionController::API
     end
 
     def current_user
-      @current_user ||= User.find(session[:user_id]) if session[:user_id]
+      User.find(session[:user_id]) if session[:user_id]
     end
 
   private
@@ -17,8 +17,6 @@ class ApplicationController < ActionController::API
               render_not_logged_in_response
           end
       end
-
-      
 
       def render_not_logged_in_response
           render json: {errors: ["You need to be logged in to access this feature."]}, status: :unprocessable_entity
