@@ -10,6 +10,9 @@ import {logout} from "./features/User/userSlice"
 
 //features
 
+//navbar
+import NavBar from "./features/NavBar/NavBar";
+
 //home
 import Home from "./components/Home";
 
@@ -20,6 +23,11 @@ import UserProfile from "./features/User/UserProfile";
 
 //course
 import CoursePage from "./features/Courses/CoursePage";
+import CreateCourse from "./features/Courses/CreateCourse";
+
+//lesson
+import LessonPage from "./features/Lessons/LessonPage";
+import CreateLesson from "./features/Lessons/CreateLesson";
 
 
 
@@ -52,6 +60,7 @@ function App() {
 
   return (
     <div className="App">
+      <NavBar></NavBar>
       <Switch>
         <Route exact path = "/">
           <Home></Home>
@@ -59,8 +68,17 @@ function App() {
         <Route path = "/profile">
           <UserProfile handleLogout = {handleLogout}></UserProfile>
         </Route>
-        <Route path = "/courses/:id">
+        <Route exact path = "/courses/create">
+          <CreateCourse></CreateCourse>
+        </Route>
+        <Route exact path = "/courses/:id">
           <CoursePage></CoursePage>
+        </Route>
+        <Route exact path = "/courses/:courseId/sections/:sectionNum/lessons/:lessonNum">
+          <LessonPage></LessonPage>
+        </Route>
+        <Route exact path = "/courses/:courseId/sections/:sectionNum/new">
+          <CreateLesson></CreateLesson>
         </Route>
         <Route path = "/login">
           <Login></Login>
