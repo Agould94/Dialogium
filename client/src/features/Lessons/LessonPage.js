@@ -3,8 +3,10 @@ import {useParams, useRouteMatch} from 'react-router-dom'
 import {useSelector, useDispatch} from 'react-redux'
 import { setLesson } from './lessonSlice'
 import { setCourse } from '../Courses/courseSlice'
+import { setLessonVideos } from '../Videos/videoSlice'
 
 import VideoSearch from '../Videos/VideoSearch'
+import VideoCard from '../Videos/VideoCard'
 
 
 import { Grid, Box, Typography, Card, CardMedia, CardContent } from '@mui/material'
@@ -17,10 +19,12 @@ function LessonPage() {
     const dispatch = useDispatch()
     let course = useSelector(state=>state.courses.course)
     let lesson = useSelector(state=>state.lesson.lesson)
+    let lessonVideos = useSelector(state=>state.videos.lessonVideos)
     console.log(params)
+    console.log(lesson)
+    console.log(lessonVideos)
     
     useEffect(()=>{
-        console.log("effect")
         if(Object.keys(course).length===0){
         fetch(`/courses/${params.courseId}`)
         .then((r)=>r.json())
@@ -28,6 +32,7 @@ function LessonPage() {
             dispatch(setCourse(course))
             console.log(course)
             dispatch(setLesson(course.sections[sectionNum].lessons[lessonNum]))
+            dispatch(setLessonVideos(course.sections[sectionNum].lessons[lessonNum].videos))
             setLoading(false)
         })
         }else{
@@ -36,32 +41,16 @@ function LessonPage() {
         }
     }, [course, params, dispatch, sectionNum, lessonNum])
    
-    function addVideoToLesson(){
-        
-    }    
+     
     console.log(params.lessonNum)
-   
+
     
-    console.log(lesson.videos)
+    console.log(lessonVideos)
     let videosToDisplay 
-   if(loading === false){
-    videosToDisplay = lesson.videos.map((video)=>{
+   if(loading === false && lessonVideos.length > 0){
+    videosToDisplay = lessonVideos.map((video)=>{
         return(
-            <Card sx = {{maxWidth: 320, mt: 3}}>
-            <CardMedia sx = {{height: 180}} component = "iframe" image = {video.embed_url} title = {`${video.title} thumbnail`}/>
-            <CardContent>
-              <Typography variant = "h5" component = "a" href = {video.url} target = "_blank">
-                {video.title}
-              </Typography>
-              <Typography variant="body2" color = 'text.secondary'>
-                {video.description ?
-                video.description.slice(0, 100)
-                :
-                null
-            }...
-              </Typography>
-            </CardContent>
-          </Card>
+            <VideoCard video = {video}></VideoCard>
         )
     })
 }
