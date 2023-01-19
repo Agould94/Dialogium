@@ -6,6 +6,7 @@ const slice = createSlice({
         video: {}, 
         videos: {},
         videoIds: [],
+        lessonVideos: []
     },
     reducers:{
         setVideo: (state, action)=>{
@@ -17,6 +18,13 @@ const slice = createSlice({
         resetVideos: (state)=>{
             state.videos = {}
         },
+        setLessonVideos: (state, action)=>{
+            state.lessonVideos = action.payload
+        },
+        filterLessonVideos: (state, action)=>{
+            console.log(state.lessonVideos)
+            state.lessonVideos = state.lessonVideos.filter((video)=>video.id !== action.payload)
+        },
         addVideoIds: (state, action)=>{
             state.videoIds.push(action.payload)
         }, 
@@ -26,8 +34,8 @@ const slice = createSlice({
     }
 })
 
-const {setVideo, setVideos, addVideoIds, resetVideoIds, resetVideos} = slice.actions
+const {setVideo, setVideos, addVideoIds, resetVideoIds, resetVideos, filterLessonVideos, setLessonVideos } = slice.actions
 
-export {setVideo, setVideos, addVideoIds, resetVideoIds, resetVideos}
+export {setVideo, setVideos, addVideoIds, resetVideoIds, resetVideos, filterLessonVideos, setLessonVideos}
 
 export default slice.reducer
