@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import {Switch, Route} from "react-router-dom"
 
 //redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {login} from "./features/User/userSlice"
 import {logout} from "./features/User/userSlice"
 
@@ -34,6 +34,8 @@ import CreateLesson from "./features/Lessons/CreateLesson";
 function App() {
   const [count, setCount] = useState(0);
   const dispatch = useDispatch()
+  const user = useSelector(state=>state.user.user)
+  console.log(user)
 
   function handleLogout(e){
     e.preventDefault()
