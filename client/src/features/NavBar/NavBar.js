@@ -5,12 +5,15 @@ import {
   CssBaseline,
   Typography,
   Button,
+  Box,
 } from "@mui/material";
 //import { makeStyles } from '@mui/styles';
 
 import { Link } from "react-router-dom";
 import { getThemeProps } from '@mui/system';
 import { ClassNames } from '@emotion/react';
+
+import { useSelector } from 'react-redux';
 
 // const useStyles = makeStyles((theme) =>({
 //     navlinks: {
@@ -32,28 +35,41 @@ import { ClassNames } from '@emotion/react';
 
 function NavBar() {
     //const classes = useStyles()
- 
+
+    const user = useSelector(state=>state.user.user)
   return (
     <AppBar position = "static" sx={{background: "#c3e0ce"}}>
         <CssBaseline/>
         <Toolbar>
+            
             <Typography variant = "h5" component={Link} to = "/" sx={{textDecoration: "none", color: "black", marginLeft: "-20px", marginRight: "10px"}}>
                 Dialogium
             </Typography>
-            <div >
-                <Button sx = {{color: 'black', marginTop: '5px'}} variant = "text" component= {Link} to = "/profile" >
-                    Profile
-                </Button>
-                <Button sx = {{color: 'black', marginTop: '5px'}} variant = "text" component= {Link} to = "/login" >
-                    Login
-                </Button>
-                <Button sx = {{color: 'black', marginTop: '5px'}} variant = "text" component= {Link} to = "/signup" >
-                    Signup
-                </Button>
+            <Box sx = {{display: "flex", flexGrow: 1}}>
                 <Button sx = {{color: 'black', marginTop: '5px'}} variant = "text" component= {Link} to = "/courses/create" >
                     Create a course
                 </Button>
-            </div>
+            </Box>
+                {user ?
+                <Box>
+                 <Button sx = {{color: 'black', marginTop: '5px'}} variant = "text" component= {Link} to = "/profile" >
+                    Profile
+                </Button>
+                <Button sx = {{color: 'black', marginTop: '5px'}} variant = "text" component= {Link} to = "/logout">
+                    Logout
+                </Button>
+                </Box>
+                :
+                <div>
+                    <Button sx = {{color: 'black', marginTop: '5px'}} variant = "text" component= {Link} to = "/login" >
+                    Login
+                    </Button>
+                    <Button sx = {{color: 'black', marginTop: '5px'}} variant = "text" component= {Link} to = "/signup" >
+                        Signup
+                    </Button>
+                </div>
+            }
+            
         </Toolbar>
     </AppBar>
   )
