@@ -7,7 +7,7 @@ import VideoSearchCard from './VideoSearchCard'
 
 import { FormControl, InputLabel, Input, Box, Button, Card, CardMedia, CardContent, Typography, CardActions } from '@mui/material'
 
-import { setVideos, addVideoIds, resetVideoIds } from './videoSlice'
+import { setVideos, addVideoIds, resetVideoIds, setLessonVideos } from './videoSlice'
 
 import { setLesson } from '../Lessons/lessonSlice'
 
@@ -71,12 +71,13 @@ function VideoSearch() {
       }).then((r)=>r.json())
       .then((lesson)=>{
         dispatch(setLesson(lesson))
+        dispatch(setLessonVideos(lesson.videos))
         setIsFetching(false)
         dispatch(resetVideoIds())
       })
       }
 
-      function deleteVideoFromLesson(){}
+      
     
 
     useEffect(()=>{
