@@ -60,6 +60,7 @@ function CourseCard({course}) {
         </CardContent>
     </Card>
   )
-}
+  }
+
 
 export default CourseCard
