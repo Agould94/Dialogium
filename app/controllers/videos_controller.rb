@@ -14,6 +14,20 @@ class VideosController < ApplicationController
        
     end
 
+    def destroy
+        video = find_video
+        #binding.pry
+        # if video.lesson.section.course.creator === current_user
+        #     binding.pry
+        #     video.destroy
+        #     head :no_content
+        # else
+        #     render json: {error: "you must be logged in"}
+        # end
+        video.destroy 
+        head :no_content
+    end
+
     def search
         key = ENV["YOUTUBE_API_KEY"]
         puts Rails.env
@@ -29,6 +43,10 @@ class VideosController < ApplicationController
     end
 
     private
+    def find_video
+        Video.find(params[:id])
+    end
+
     def video_params
         params.permit(:video, :channel, :link)
     end
