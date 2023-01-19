@@ -24,4 +24,8 @@ class Video < ApplicationRecord
             true
          end
     end
+
+    private
+
+   
 end
