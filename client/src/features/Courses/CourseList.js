@@ -12,10 +12,9 @@ function CourseList() {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(true)
     const courses = useSelector(state=> state.courses.courses)
-    console.log(courses)
 
     
-
+    console.log(courses)
     useEffect(()=>{
         fetch('/courses')
         .then((r)=>r.json())
