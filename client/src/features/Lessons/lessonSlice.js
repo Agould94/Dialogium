@@ -8,12 +8,15 @@ const slice = createSlice({
     reducers:{
         setLesson: (state, action)=>{
             state.lesson = action.payload
+        }, 
+        addLessonText:(state, action)=>{
+            state.lesson.text = action.payload
         }
     }
 })
 
-const {setLesson} = slice.actions
+const {setLesson, addLessonText} = slice.actions
 
-export {setLesson}
+export {setLesson, addLessonText}
 
 export default slice.reducer
