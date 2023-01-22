@@ -17,6 +17,8 @@ class CoursesController < ApplicationController
         render json: course
     end
 
+    
+
     def destroy
     end
 
