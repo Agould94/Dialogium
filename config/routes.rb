@@ -30,6 +30,6 @@ Rails.application.routes.draw do
   get '/hello', to: 'application#hello_world'
 
   get 'completion', to: 'completions#generate_completion'
-  get 'lessoncompletion', to: 'completions#generate_lesson'
+  patch 'lessoncompletion/:id', to: 'completions#generate_lesson'
   get 'completions', to: 'completions#index'
 end
