@@ -36,7 +36,7 @@ function CourseCard({course}) {
             image = firstVideoLesson.videos[0].thumbnail
         }
     }
-    console.log(firstVideoLesson)
+    
    
 
     //const image = course.sections[0].lessons[0].thumbnail || Default
