@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {useParams, useRouteMatch} from 'react-router-dom'
 import {useSelector, useDispatch} from 'react-redux'
-import { setLesson } from './lessonSlice'
+import { setLesson, addLessonText } from './lessonSlice'
 import { setCourse } from '../Courses/courseSlice'
 import { setLessonVideos } from '../Videos/videoSlice'
 
@@ -9,10 +9,23 @@ import VideoSearch from '../Videos/VideoSearch'
 import VideoCard from '../Videos/VideoCard'
 
 
-import { Grid, Box, Typography, Card, CardMedia, CardContent } from '@mui/material'
+import { 
+    Grid,
+    Box,
+    Typography,
+    Card,
+    CardMedia,
+    CardContent,
+    FormControl, 
+    Input,
+    InputLabel,
+    TextField, 
+    Button } from '@mui/material'
 
 function LessonPage() {
     const [loading, setLoading] = useState(true)
+    const [displayText, setDisplayText] = useState(true)
+    const [text, setText] = useState(true)
     const match = useRouteMatch()
     const params = useParams()
     const {sectionNum, lessonNum} = useParams()
@@ -55,6 +68,34 @@ function LessonPage() {
     })
 }
 
+    function handleAddText(e){
+        e.preventDefault()
+        fetch(`/lessons/${lesson.id}`, {
+            method: "PATCH", 
+            headers:{
+                'Content-Type':"application/json"
+            }, 
+            body: JSON.stringify({
+                text: text
+            })
+        })
+        .then((r)=>r.json())
+        .then((lesson)=>{
+            dispatch(setLesson(lesson))
+                console.log(lesson)
+                setDisplayText(!displayText)
+        })
+    }
+
+    function handleChange(e){
+        console.log(e.target.value)
+        setText(e.target.value)
+    }
+
+    function handleDisplayText(){
+        setDisplayText(!displayText)
+    }
+
   return (
     <div>
         {loading ?
@@ -63,29 +104,28 @@ function LessonPage() {
         <Grid container columnSpacing={{xs:2}}>
             <Grid item xs = {6} >
             <Box sx={{ display: 'flex', justifyContent: 'flex-start', marginTop: 3, marginRight: 10, flexDirection: 'column'}}>
-            <Typography sx = {{fontStyle: 'h6'}}>{lesson.name}</Typography>
-                <Box sx={{display: 'inline-flex', marginTop: 3, }}>
-                    {lesson.text ?
+                <Typography variant = 'h5'>{lesson.name}:</Typography>
+                {lesson.text && displayText ?
+                <Box>
                     <div>{lesson.text}</div>
-                    :
-                    null
-                    }
-                
-                <br></br>
+                    <Button onClick = {handleDisplayText}>Update Text</Button>
+                </Box>
+                :
+                <Box>
+                    <Typography>Add Text to this Lesson:</Typography>
+                    <form onSubmit={handleAddText}>
+                        <TextField fullWidth label = "Lesson Text" multiline = "true" onChange={handleChange} defaultValue = {lesson.text}></TextField>
+                        <Button type = "submit">submit</Button>
+                    </form>
+                </Box>
+                }
+                <Box sx={{display: 'inline-flex', marginTop: 3, flexDirection:'column' }}>
+                    <Typography>Lesson Videos:</Typography>
                     <Box>
                         {videosToDisplay}
                     </Box>
                 </Box>
-                <div>
-                    <form>
-                        <label>
-                            Add a Video to this Lesson:
-                        </label>
-                        <br></br>
-                        <input type = "text"></input>
-                    </form>
-                </div>
-                </Box>
+            </Box>
             </Grid>
             <Grid item xs = {6} sx = {{overflow: 'auto'}}>
                 <Box height = {window.innerHeight}>
