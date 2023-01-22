@@ -13,7 +13,9 @@ import { Link } from "react-router-dom";
 import { getThemeProps } from '@mui/system';
 import { ClassNames } from '@emotion/react';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { logout } from '../User/userSlice'; 
 
 // const useStyles = makeStyles((theme) =>({
 //     navlinks: {
@@ -35,6 +37,13 @@ import { useSelector } from 'react-redux';
 
 function NavBar() {
     //const classes = useStyles()
+    const dispatch = useDispatch()
+
+    function handleLogout(e){
+        e.preventDefault()
+        fetch('/logout', {method: "DELETE"})
+        .then((r)=> dispatch(logout))
+    }
 
     const user = useSelector(state=>state.user.user)
   return (
@@ -55,7 +64,7 @@ function NavBar() {
                  <Button sx = {{color: 'black', marginTop: '5px'}} variant = "text" component= {Link} to = "/profile" >
                     Profile
                 </Button>
-                <Button sx = {{color: 'black', marginTop: '5px'}} variant = "text" component= {Link} to = "/logout">
+                <Button sx = {{color: 'black', marginTop: '5px'}} variant = "text" onClick = {handleLogout}>
                     Logout
                 </Button>
                 </Box>
