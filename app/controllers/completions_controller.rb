@@ -1,6 +1,6 @@
 class CompletionsController < ApplicationController
 
-  before_action :logged_in?, only:[:generate_completion, :generate_lesson]
+  before_action :logged_in?, only:[:generate_completion]
 
     def index
         completions = Completion.all
@@ -40,8 +40,7 @@ class CompletionsController < ApplicationController
             max_tokens: 2048
           }
         )
-
-        usage = completions["usage"]["prompt_tokens"].class
+        usage = completions["usage"]["prompt_tokens"]
         lines = completions["choices"][0]["text"].split("\n")
         
         completion = Completion.create(prompt: prompt, text: completions["choices"][0]["text"], topic: params[:topic], prompt_tokens: completions["usage"]["prompt_tokens"], completion_tokens: completions["usage"]["completion_tokens"], total_tokens: completions["usage"]["total_tokens"] )
@@ -52,8 +51,9 @@ class CompletionsController < ApplicationController
     end
 
     def generate_lesson
+      binding.pry
       model = "text-davinci-003"
-        prompt = 'Pretend you are writing the text for a lesson in and online course on'+ params[:title] +'on the topic of'+ params[:topic]+', make sure to completely cover everything that goes into'+ params[:subject] +'.'
+        prompt = 'Write the text for a lesson in and online course on '+ params["topic"] +' on the topic of '+ params["lesson_name"]+', make sure to completely cover everything that goes into'+ params["subject"] +'. Do not add any qualifying statements such as "welcome" or "congratulations" simply provide the lesson text in a detached and emperical voice.'
         
         client = OpenAI::Client.new
         completions = client.completions(
@@ -63,11 +63,14 @@ class CompletionsController < ApplicationController
             max_tokens: 2048
           }
         )
-
         usage = completions["usage"]["prompt_tokens"].class
         lines = completions["choices"][0]["text"].split("\n")
         
-        completion = Completion.create(prompt: prompt, text: completions["choices"][0]["text"], topic: params[:topic], prompt_tokens: completions["usage"]["prompt_tokens"], completion_tokens: completions["usage"]["completion_tokens"], total_tokens: completions["usage"]["total_tokens"] )
+        completion = Completion.create(prompt: prompt, text: completions["choices"][0]["text"].split("\n").compact_blank.join(" "), topic: params[:topic], prompt_tokens: completions["usage"]["prompt_tokens"], completion_tokens: completions["usage"]["completion_tokens"], total_tokens: completions["usage"]["total_tokens"] )
+
+        lesson = Lesson.find(params[:id])
+        lesson.update(text: completion.text)
+        render json: lesson
     end
 
 
