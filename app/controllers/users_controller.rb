@@ -7,9 +7,13 @@ class UsersController < ApplicationController
     #     render json: users
     # end
 
+    before_action :logged_in?, only: [:take_course]
+
     def show
         user = find_user
-        render json: user
+        #binding.pry
+        courses = user.courses
+        render json: user, include: ['courses', 'courses.sections', 'courses.sections.lessons']
     end
 
     def create
@@ -36,6 +40,12 @@ class UsersController < ApplicationController
         else
             render json: {error: "user not found"}, status: :not_found
         end
+    end
+
+    def take_course
+        user = find_user
+        user.courses.push(Course.find(params["course_id"]))
+        render json: user
     end
 
 
