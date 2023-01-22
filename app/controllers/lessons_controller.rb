@@ -26,15 +26,11 @@ class LessonsController < ApplicationController
     end
 
     def update
-        # lesson = Lesson.find(params[:id])
+        lesson = Lesson.find(params[:id])
+        lesson.update!(text: params["text"])
 
-        # video_ids = params[:video_ids]
-        # videos = video_ids.map do |id|
-        #     ytvideo = Yt::Video.new id: id
-        #     video = lesson.videos.create(url: "https://www.youtube.com/watch?v=#{id}", embed_url: "https://www.youtube.com/embed/#{id}", title: ytvideo.snippet.data["title"], channel: ytvideo.snippet.data["channelTitle"], description: ytvideo.snippet.data["description"], thumbnail: ytvideo.snippet.data["thumbnails"]["medium"]["url"])
-        # end
+        render json: lesson
 
-        # render json: lesson
     end
 
 
