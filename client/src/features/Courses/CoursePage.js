@@ -4,7 +4,7 @@ import {useParams, Link as RouterLink} from "react-router-dom"
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
-import { Button, Box, Typography, Accordion, AccordionSummary, AccordionDetails, Link, Divider } from '@mui/material';
+import { Button, Box, Typography, Accordion, AccordionSummary, AccordionDetails, Link, Divider, AvatarGroup, Avatar } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import {setCourse} from "./courseSlice";
@@ -12,6 +12,11 @@ import {setCourse} from "./courseSlice";
 import { setLesson } from "../Lessons/lessonSlice";
 
 import { resetVideos } from "../Videos/videoSlice";
+
+import { addUserToCourse } from "./courseSlice";
+
+import { addCourse } from "../User/userSlice";
+
 
 const LinkBehavior = React.forwardRef((props, ref)=>{
     const {href, ...other} = props
@@ -38,6 +43,8 @@ function CoursePage(){
     let params = useParams()
     const dispatch = useDispatch()
     console.log("hello")
+
+    const user = useSelector(state=> state.user.user)
     
 
     const [loading, setLoading] = useState(true)
@@ -49,6 +56,7 @@ function CoursePage(){
    
     console.log(params)
     useEffect(()=>{
+        console.log("effect")
         if(Object.keys(course).length === 0){
         fetch(`/courses/${params.id}`)
         .then((r)=>r.json())
@@ -66,6 +74,22 @@ function CoursePage(){
 
     const course = useSelector(state=> state.courses.course)
     console.log(course)
+
+    function handleTakeCourse(){
+        fetch(`/take_course`, {
+            method: "PATCH",
+            headers:{
+                'Content-Type':"application/json"
+            },
+            body: JSON.stringify({
+                course_id: course.id
+            })
+        }).then((r)=>r.json())
+        .then((user)=>{
+            dispatch(addUserToCourse(user))
+            dispatch(addCourse(course))
+        })
+    }
 
     function clearLesson(){
         dispatch(setLesson({}))
@@ -118,29 +142,52 @@ function CoursePage(){
     })
 }
     return(
-        <Box sx = {{display: "flex", justifyContent: "space-between", marginTop: 3}}>
+        <Box>
             {loading ?
                 <Box>
                     <Typography>Loading...</Typography>
                 </Box>
                 :
-                <Box sx={{marginLeft: 2 }}>
-                    <Typography variant="h4">{course.title.slice(6, course.title.length)}</Typography>
-                    <Box sx ={{overflow: "auto"}}>
-                        <Box height = {window.innerHeight}>{displaySections}</Box>
+                <Box sx = {{display: "flex", justifyContent: "space-between", marginTop:3}}>
+                    <Box sx={{marginLeft: 2 }}>
+                        <Typography variant="h4">{course.title.slice(6, course.title.length)}</Typography>
+                        <Box sx ={{overflow: "auto"}}>
+                            <Box height = {window.innerHeight}>{displaySections}</Box>
+                        </Box>
+                        
+                    </Box>   
+                    <Divider orientation="vertical" flexItem sx={{padding: 2}}></Divider>
+                    <Box sx = {{justifyContent: "flex-end"}}>
+                    {course.creator ?
+                    <Typography>This is a course by {course.creator.first_name}</Typography>
+                    :
+                    <Typography>This is a site-generated course.</Typography>
+                    }
+                    {
+                        course.users.length > 0 ?
+                        <Box>
+                            <AvatarGroup max= {6}>
+                                {course.users.map((user)=>{
+                                    return <Avatar alt = "Remy Sharp" sx={{bgcolor: "#198256"}}>{user.first_name.charAt(0).toUpperCase()}</Avatar>
+                                })}
+                            </AvatarGroup>
+                        </Box>
+                        :
+                        null
+                    }
+                    <Box>
+                        {
+                            user ?
+                            <Button variant = "contained" onClick={handleTakeCourse}>Take this Course!</Button>
+                            :
+                            <ThemeProvider theme = {theme}>
+                                <Button variant = "contained" href = {"/signup"}>Sign up to take this course!</Button>
+                            </ThemeProvider>
+                        }
+                        </Box>
                     </Box>
-                    
                 </Box>
-            }   
-            <Divider orientation="vertical" flexItem sx={{padding: 2}}></Divider>
-            <Box>
-                {course.creator ?
-                <Typography>This is a course by {course.creator.first_name}</Typography>
-                :
-                <Typography>This is a site-generated course.</Typography>
-                }
-                <Typography>Take this course.</Typography>
-            </Box>
+            }
         </Box>
     )
 }
