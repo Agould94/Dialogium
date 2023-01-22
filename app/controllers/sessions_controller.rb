@@ -3,7 +3,6 @@ class SessionsController < ApplicationController
         user = User.find_by(first_name: params[:firstName])
         if user&.authenticate(params[:password])
           session[:user_id] = user.id
-          puts "PUTS"
           puts session[:user_id]
           render json: user, status: :created
         else
