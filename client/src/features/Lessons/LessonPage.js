@@ -26,6 +26,7 @@ function LessonPage() {
     const [loading, setLoading] = useState(true)
     const [displayText, setDisplayText] = useState(true)
     const [text, setText] = useState(true)
+    const [generating, setGenerating] = useState(false)
     const match = useRouteMatch()
     const params = useParams()
     const {sectionNum, lessonNum} = useParams()
@@ -36,6 +37,7 @@ function LessonPage() {
     console.log(params)
     console.log(lesson)
     console.log(lessonVideos)
+    console.log(course)
     
     useEffect(()=>{
         if(Object.keys(course).length===0){
@@ -83,7 +85,7 @@ function LessonPage() {
         .then((lesson)=>{
             dispatch(setLesson(lesson))
                 console.log(lesson)
-                setDisplayText(!displayText)
+                setDisplayText(true)
         })
     }
 
@@ -96,6 +98,27 @@ function LessonPage() {
         setDisplayText(!displayText)
     }
 
+    function handleGenerateText(e){
+        e.preventDefault()
+        fetch(`/lessoncompletion/${lesson.id}`, {
+            method: "PATCH", 
+            headers:{
+                'Content-Type':"application/json"
+            }, 
+            body: JSON.stringify({
+                topic: course.topic,
+                lesson_name: lesson.name,
+                subject: lesson.subject
+            })
+        })
+        .then((r)=>r.json())
+        .then((lesson)=>{
+            dispatch(setLesson(lesson))
+                console.log(lesson)
+                setDisplayText(true)
+        })
+    }
+
   return (
     <div>
         {loading ?
@@ -104,7 +127,8 @@ function LessonPage() {
         <Grid container columnSpacing={{xs:2}}>
             <Grid item xs = {6} >
             <Box sx={{ display: 'flex', justifyContent: 'flex-start', marginTop: 3, marginRight: 10, flexDirection: 'column'}}>
-                <Typography variant = 'h5'>{lesson.name}:</Typography>
+                <Typography variant = 'h4'>{lesson.name}:</Typography>
+                <Typography variant = "h5">{lesson.subject}</Typography>
                 {lesson.text && displayText ?
                 <Box>
                     <div>{lesson.text}</div>
@@ -112,11 +136,27 @@ function LessonPage() {
                 </Box>
                 :
                 <Box>
+                    {lesson.text ?
+                    <Box>
+                        <Typography>Add Text to this Lesson:</Typography>
+                        <form onSubmit={handleAddText}>
+                            <TextField fullWidth label = "Lesson Text" multiline = "true" onChange={handleChange} defaultValue = {lesson.text}></TextField>
+                            <Button type = "submit">submit</Button>
+                        </form>
+                    </Box>
+                    :
+                    <Box>
+                    <Typography>Generate Text for this Lesson:</Typography>
+                    <Button onClick = {handleGenerateText}>Generate</Button>
+                    <Typography>Or</Typography>
+                
                     <Typography>Add Text to this Lesson:</Typography>
                     <form onSubmit={handleAddText}>
                         <TextField fullWidth label = "Lesson Text" multiline = "true" onChange={handleChange} defaultValue = {lesson.text}></TextField>
                         <Button type = "submit">submit</Button>
                     </form>
+                </Box>
+                    }
                 </Box>
                 }
                 <Box sx={{display: 'inline-flex', marginTop: 3, flexDirection:'column' }}>
