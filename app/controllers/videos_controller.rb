@@ -30,12 +30,9 @@ class VideosController < ApplicationController
 
     def search
         key = ENV["YOUTUBE_API_KEY"]
-        puts Rails.env
-        puts key
-        puts params[:search]
         search = params[:search]
         uri = URI('https://www.googleapis.com/youtube/v3/search')
-        params = {:key => key, :part => 'snippet', :q=>search}
+        params = {:key => key, :part => 'snippet', :q=>search, :type=>'video'}
         uri.query = URI.encode_www_form(params)
 
         response = Net::HTTP.get_response(uri)
