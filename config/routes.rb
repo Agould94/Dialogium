@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
+  
+
   get '/search', to: "videos#search"
 
   post "/login", to: "sessions#create"
@@ -23,6 +25,7 @@ Rails.application.routes.draw do
 
   post "signup", to: "users#create"
   get "/me", to: "users#show"
+  patch '/take_course', to: "users#take_course"
 
   get '/hello', to: 'application#hello_world'
 
