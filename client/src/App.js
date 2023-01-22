@@ -33,6 +33,7 @@ import CreateLesson from "./features/Lessons/CreateLesson";
 
 function App() {
   const [count, setCount] = useState(0);
+  const [loadingUser, setLoadingUser]= useState(true)
   const dispatch = useDispatch()
   const user = useSelector(state=>state.user.user)
   console.log(user)
@@ -44,14 +45,15 @@ function App() {
 
   useEffect(() => {
     // auto-login
-    fetch("/me")
-    .then((r) => r.json())
-    .then((data) => {
-      if(data.error){
-        console.log(data)
-      }else{
-        dispatch(login(data))
-      }})
+      fetch("/me")
+      .then((r) => r.json())
+      .then((data) => {
+        if(data.error){
+          console.log(data)
+        }else{
+          dispatch(login(data))
+          setLoadingUser(false)
+        }})
   }, []);
 
   // useEffect(() => {
@@ -59,7 +61,7 @@ function App() {
   //     .then((r) => r.json())
   //     .then((data) => setCount(data.count));
   // }, []);
-
+  if(!loadingUser){
   return (
     <div className="App">
       <NavBar></NavBar>
@@ -91,6 +93,7 @@ function App() {
       </Switch>
     </div>
   );
+  }
 }
 
 export default App;
