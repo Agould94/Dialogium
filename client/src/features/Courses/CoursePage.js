@@ -127,6 +127,7 @@ function CoursePage(){
                     </AccordionSummary>
                 </Accordion>
                 {lessons}
+                {course.creator.id === user.id ?
                 <Accordion sx = {{display: "flex", borderTop: "1px solid rgba(0,0,0,.5)", justifyContent: "right"}}>
                     <AccordionSummary id = "panel3d-header" onClick = {clearLesson}>
                         <ThemeProvider theme = {theme}>
@@ -136,6 +137,8 @@ function CoursePage(){
                         </ThemeProvider>
                     </AccordionSummary>
                 </Accordion>
+                :
+                null}
 
             </div>
         )
