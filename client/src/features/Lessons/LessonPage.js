@@ -21,6 +21,7 @@ import {
     InputLabel,
     TextField, 
     Button } from '@mui/material'
+import userSlice from '../User/userSlice'
 
 function LessonPage() {
     const [loading, setLoading] = useState(true)
@@ -34,6 +35,7 @@ function LessonPage() {
     let course = useSelector(state=>state.courses.course)
     let lesson = useSelector(state=>state.lesson.lesson)
     let lessonVideos = useSelector(state=>state.videos.lessonVideos)
+    let user = useSelector(state=>state.user.user)
     console.log(params)
     console.log(lesson)
     console.log(lessonVideos)
@@ -132,11 +134,16 @@ function LessonPage() {
                 {lesson.text && displayText ?
                 <Box>
                     <div>{lesson.text}</div>
+                    {course.creator.id === user.id ? 
                     <Button onClick = {handleDisplayText}>Update Text</Button>
+                    :
+                    null
+                    }
                 </Box>
                 :
                 <Box>
-                    {lesson.text ?
+                    {course.creator.id === user.id ?
+                    lesson.text ?
                     <Box>
                         <Typography>Add Text to this Lesson:</Typography>
                         <form onSubmit={handleAddText}>
@@ -156,24 +163,29 @@ function LessonPage() {
                         <Button type = "submit">submit</Button>
                     </form>
                 </Box>
-                    }
+                    :
+                    null
+                }
                 </Box>
                 }
                 <Box sx={{display: 'inline-flex', marginTop: 3, flexDirection:'column' }}>
                     <Typography>Lesson Videos:</Typography>
-                    <Box>
+                    <Box sx = {{display: "flex", flexDirection: "row"}}>
                         {videosToDisplay}
                     </Box>
                 </Box>
             </Box>
             </Grid>
+            {course.creator.id === user.id ?
             <Grid item xs = {6} sx = {{overflow: 'auto'}}>
                 <Box height = {window.innerHeight}>
                 <Typography>Search for videos to add to your lesson:</Typography>
                  <VideoSearch></VideoSearch>
                 </Box>
-                    
             </Grid>
+            : 
+            null
+            }
         </Grid>
         }
     </div>
