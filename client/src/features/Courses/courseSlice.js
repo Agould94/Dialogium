@@ -6,6 +6,7 @@ const slice = createSlice({
     initialState:{
         course: {}, 
         courses: {},
+        filteredCourses:{}
     },
     reducers:{
         setCourse: (state, action)=>{
@@ -13,6 +14,9 @@ const slice = createSlice({
         },
         setCourses: (state, action)=>{
             state.courses = action.payload
+        },
+        filterCourses: (state, action)=>{
+            state.filteredCourses = state.courses.filter((course)=> course.title.includes(action.payload))
         },
         updateCourseLesson: (state, action)=>{
             console.log(action.payload.sectionNum)
@@ -25,8 +29,8 @@ const slice = createSlice({
     }
 })
 
-const {setCourse, setCourses, updateCourseLesson, addUserToCourse} = slice.actions
+const {setCourse, setCourses, updateCourseLesson, addUserToCourse, filterCourses} = slice.actions
 
-export {setCourse, setCourses, updateCourseLesson, addUserToCourse}
+export {setCourse, setCourses, updateCourseLesson, addUserToCourse, filterCourses}
 
 export default slice.reducer
