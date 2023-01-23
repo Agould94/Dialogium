@@ -46,7 +46,7 @@ function CoursePage(){
 
     const user = useSelector(state=> state.user.user)
     
-
+    const [clicked, setClicked] = useState(false)
     const [loading, setLoading] = useState(true)
     const [expanded, setExpanded] = useState(false)
     console.log(loading)
@@ -95,6 +95,9 @@ function CoursePage(){
         dispatch(setLesson({}))
     }
 
+    function handleClick(){
+        setClicked(!clicked)
+    }
     let displaySections
     if(loading === false){
         displaySections = course.sections.map((section, index)=>{
@@ -160,7 +163,7 @@ function CoursePage(){
                         
                     </Box>   
                     <Divider orientation="vertical" flexItem sx={{padding: 2}}></Divider>
-                    <Box sx = {{justifyContent: "flex-end"}}>
+                    <Box sx = {{justifyContent: "center", marginRight: 30}}>
                     {course.creator ?
                     <Typography>This is a course by {course.creator.first_name}</Typography>
                     :
@@ -169,11 +172,28 @@ function CoursePage(){
                     {
                         course.users.length > 0 ?
                         <Box>
-                            <AvatarGroup max= {6}>
+                            {clicked ? 
+                            <Box>
+                                <Box sx = {{display: "flex", justifyContent:"space-between"}} onClick = {handleClick}><Typography>Students</Typography> <Typography>{'\u25bc'}</Typography></Box>
                                 {course.users.map((user)=>{
-                                    return <Avatar alt = "Remy Sharp" sx={{bgcolor: "#198256"}}>{user.first_name.charAt(0).toUpperCase()}</Avatar>
+                                    return(
+                                    <Box sx = {{display: "flex", justifyContent: "space-around", marginTop: 1 }}>
+                                        <Avatar alt = "Remy Sharp" sx={{bgcolor: "#198256"}}>{user.first_name.charAt(0).toUpperCase()}</Avatar>
+                                        <ThemeProvider theme = {theme}>
+                                            <Link sx = {{paddingTop: 1}} href={`/users/${user.id}`}>{user.first_name} {user.last_name}</Link>
+                                        </ThemeProvider>
+                                        
+                                    </Box>
+                                    )
+                                })}
+                            </Box>
+                            :
+                            <AvatarGroup max= {6} onClick = {handleClick}>
+                                {course.users.map((user)=>{
+                                    return <Avatar alt = "Remy Sharp" sx={{bgcolor: "#198256"}} >{user.first_name.charAt(0).toUpperCase()}</Avatar>
                                 })}
                             </AvatarGroup>
+                            }
                         </Box>
                         :
                         null
