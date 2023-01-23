@@ -1,4 +1,5 @@
 import React from 'react'
+import { styled, alpha } from '@mui/material/styles';
 import {
   AppBar,
   Toolbar,
@@ -6,16 +7,19 @@ import {
   Typography,
   Button,
   Box,
+  InputBase
 } from "@mui/material";
 //import { makeStyles } from '@mui/styles';
 
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { getThemeProps } from '@mui/system';
 import { ClassNames } from '@emotion/react';
 
 import { useSelector, useDispatch } from 'react-redux';
 
 import { logout } from '../User/userSlice'; 
+import { filterCourses } from '../Courses/courseSlice';
+
 
 // const useStyles = makeStyles((theme) =>({
 //     navlinks: {
@@ -38,11 +42,19 @@ import { logout } from '../User/userSlice';
 function NavBar() {
     //const classes = useStyles()
     const dispatch = useDispatch()
+    const history = useHistory()
+    
+    function handleSearch(e){
+
+    }
 
     function handleLogout(e){
         e.preventDefault()
         fetch('/logout', {method: "DELETE"})
-        .then((r)=> dispatch(logout))
+        .then((r)=> {
+            dispatch(logout) 
+            history.push('/')
+        })
     }
 
     const user = useSelector(state=>state.user.user)
