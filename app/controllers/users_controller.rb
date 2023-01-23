@@ -10,10 +10,13 @@ class UsersController < ApplicationController
     before_action :logged_in?, only: [:take_course]
 
     def show
-        user = find_user
-        #binding.pry
+        if params[:id]
+            user = User.find(params[:id])
+        else
+            user = find_user
+        end
         courses = user.courses
-        render json: user, include: ['courses', 'courses.sections', 'courses.sections.lessons']
+        render json: user, include: ['courses', 'courses.sections', 'courses.sections.lessons', 'created_courses', 'created_courses.sections', 'created_courses.sections.lessons']
     end
 
     def create
@@ -28,6 +31,7 @@ class UsersController < ApplicationController
 
     def update
         user = find_user
+        #binding.pry
         user.update!(user_params)
         render json: user
     end
@@ -56,7 +60,7 @@ class UsersController < ApplicationController
     end
 
     def user_params
-        params.permit(:first_name, :last_name, :email, :password, :password_confirmation, :interests)
+        params.permit(:first_name, :last_name, :email, :password, :password_confirmation, interests:[])
     end
 
     def render_not_found_response
