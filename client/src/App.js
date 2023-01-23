@@ -20,6 +20,7 @@ import Home from "./components/Home";
 import Login from "./features/User/Login";
 import SignUp from "./features/User/Signup";
 import UserProfile from "./features/User/UserProfile";
+import UpdateProfile from "./features/User/UpdateProfile";
 
 //course
 import CoursePage from "./features/Courses/CoursePage";
@@ -50,6 +51,7 @@ function App() {
       .then((data) => {
         if(data.error){
           console.log(data)
+          setLoadingUser(false)
         }else{
           dispatch(login(data))
           setLoadingUser(false)
@@ -72,11 +74,17 @@ function App() {
         <Route path = "/profile">
           <UserProfile handleLogout = {handleLogout}></UserProfile>
         </Route>
+        <Route path = "/updateUser">
+          <UpdateProfile></UpdateProfile>
+        </Route>
         <Route exact path = "/courses/create">
           <CreateCourse></CreateCourse>
         </Route>
         <Route exact path = "/courses/:id">
           <CoursePage></CoursePage>
+        </Route>
+        <Route path = "/users/:id">
+          <UserProfile></UserProfile>
         </Route>
         <Route exact path = "/courses/:courseId/sections/:sectionNum/lessons/:lessonNum">
           <LessonPage></LessonPage>

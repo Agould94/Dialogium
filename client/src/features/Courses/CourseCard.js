@@ -42,7 +42,7 @@ function CourseCard({course}) {
     //const image = course.sections[0].lessons[0].thumbnail || Default
     
   return (
-    <Card onClick = {handleCourseClick} sx = {{maxWidth: 320}}>
+    <Card onClick = {handleCourseClick} sx = {{width: 320}}>
         <CardMedia sx ={{height: 180}} image={image}/>
         <CardContent sx = {{bgcolor: '#bbe1fa' }}>
             <Typography sx = {{fontWeight: 'bold'}}>
