@@ -42,21 +42,17 @@ const theme = createTheme({
 function CoursePage(){
     let params = useParams()
     const dispatch = useDispatch()
-    console.log("hello")
+
 
     const user = useSelector(state=> state.user.user)
     
     const [clicked, setClicked] = useState(false)
     const [loading, setLoading] = useState(true)
     const [expanded, setExpanded] = useState(false)
-    console.log(loading)
-    
-    console.log("below")
-    //console.log(course)
+    const [error, setError] = useState(null)
    
-    console.log(params)
     useEffect(()=>{
-        console.log("effect")
+        
         if(Object.keys(course).length === 0){
         fetch(`/courses/${params.id}`)
         .then((r)=>r.json())
@@ -73,7 +69,6 @@ function CoursePage(){
     }, [])
 
     const course = useSelector(state=> state.courses.course)
-    console.log(course)
 
     function handleTakeCourse(){
         fetch(`/take_course`, {
@@ -86,8 +81,13 @@ function CoursePage(){
             })
         }).then((r)=>r.json())
         .then((user)=>{
-            dispatch(addUserToCourse(user))
-            dispatch(addCourse(course))
+            if(user.error){
+                setError(user.error)
+            }else{
+                dispatch(addUserToCourse(user))
+                dispatch(addCourse(course))
+            }
+      
         })
     }
 
@@ -201,7 +201,14 @@ function CoursePage(){
                     <Box>
                         {
                             user ?
+                            <Box>
                             <Button variant = "contained" onClick={handleTakeCourse}>Take this Course!</Button>
+                                {error ? 
+                                <Typography>{error}</Typography>
+                                : 
+                                null
+                                }
+                            </Box>
                             :
                             <ThemeProvider theme = {theme}>
                                 <Button variant = "contained" href = {"/signup"}>Sign up to take this course!</Button>
