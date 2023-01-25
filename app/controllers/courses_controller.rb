@@ -17,6 +17,10 @@ class CoursesController < ApplicationController
         render json: course
     end
 
+    def all_categories
+        categories = Course.all_categories
+        render json: categories
+    end
     
 
     def destroy
