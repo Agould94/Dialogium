@@ -7,7 +7,7 @@ class User < ApplicationRecord
     has_many :user_courses
     has_many :courses, through: :user_courses
 
-    
+    validates :first_name, presence: :true
 
     def full_name
         "#{first_name} #{last_name}"
