@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { login } from "./userSlice";
+import { useHistory } from "react-router-dom";
 
 function SignUp() {
   const [firstName, setFirstName] = useState("");
@@ -8,6 +9,7 @@ function SignUp() {
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [lastName, setLastName] = useState("");
   const dispatch = useDispatch();
+  const history = useHistory();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -25,6 +27,7 @@ function SignUp() {
     }).then((r) => r.json())
       .then((user) => {
         dispatch(login(user))
+        history.push('/')
       });
   }
 
