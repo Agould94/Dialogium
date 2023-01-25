@@ -43,12 +43,6 @@ function UserProfile({handleLogout}){
 
     const {courses, created_courses, email, first_name, interests, last_name} =  profile || {first_name:"", last_name:"", email:"", courses:{}, created_courses:{}, interests:[]}
     
-    console.log(user)
-    console.log(courses)
-
-    console.log(other)
-    
-    console.log(params.id)
  
     function handleDelete(){
         fetch(`/users/${user.id}`,{
@@ -80,8 +74,6 @@ function UserProfile({handleLogout}){
             )
         })
     }
-
-    console.log(displayCourses)
 
     return(
         <Box>

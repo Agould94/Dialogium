@@ -13,7 +13,6 @@ function VideoCard({video}) {
             method: "DELETE",
         }).then((r=>r.json))
         .then((data)=> {
-            console.log(data)
             dispatch(filterLessonVideos(video.id))
         })
     }

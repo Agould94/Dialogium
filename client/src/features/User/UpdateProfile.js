@@ -12,10 +12,6 @@ function UpdateProfile() {
     const history = useHistory()
     const params = useParams()
 
-    console.log(params)
-
-    
-
     const dispatch = useDispatch()
 
     const user = useSelector(state=>state.user.user)
@@ -27,7 +23,6 @@ function UpdateProfile() {
 
     function handleSubmit(e){
         e.preventDefault()
-        console.log("submit")
         fetch(`/users/${user.id}`,{
             method: "PATCH",
             headers:{
