@@ -81,6 +81,4 @@ test:
 #
 production:
   <<: *default
-  database: Dialogium_production
-  username: Dialogium
-  password: <%= ENV["DIALOGIUM_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
