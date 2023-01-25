@@ -32,4 +32,9 @@ Rails.application.routes.draw do
   get 'completion', to: 'completions#generate_completion'
   patch 'lessoncompletion/:id', to: 'completions#generate_lesson'
   get 'completions', to: 'completions#index'
+
+  get '*path',
+  to: 'fallback#index',
+  constraints: ->(req) { !req.xhr? && req.format.html? }
+
 end
