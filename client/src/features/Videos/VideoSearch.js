@@ -19,10 +19,10 @@ function VideoSearch() {
     const videoIds = useSelector(state=>state.videos.videoIds)
     const {courseId, sectionNum, lessonNum} = useParams()
     const dispatch = useDispatch()
-    console.log(videos)
-    let videosToDisplay 
-    console.log(videoIds)
+    
 
+
+    let videosToDisplay 
     if(Object.keys(videos).length >0){
      videosToDisplay = videos.map((video)=> {
       return(
@@ -84,8 +84,6 @@ function VideoSearch() {
     setSearch(lesson.name)
   }, [lesson])
     
-    console.log(lesson)
-    console.log(search)
 
     function handleSearch(e){
         setSearch(e.target.value)
@@ -93,7 +91,6 @@ function VideoSearch() {
 
     function handleSubmit(e){
       e.preventDefault()
-      console.log("submit")
 
       fetch(`/search?search=${search}`)
       .then((r)=>r.json())
