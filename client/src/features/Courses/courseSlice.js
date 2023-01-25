@@ -6,7 +6,9 @@ const slice = createSlice({
     initialState:{
         course: {}, 
         courses: {},
-        filteredCourses:{}
+        filteredCourses: null,
+        categories: null,
+        coursesByCategory: null
     },
     reducers:{
         setCourse: (state, action)=>{
@@ -16,21 +18,29 @@ const slice = createSlice({
             state.courses = action.payload
         },
         filterCourses: (state, action)=>{
-            state.filteredCourses = state.courses.filter((course)=> course.title.includes(action.payload))
+                state.filteredCourses = state.courses.filter((course)=> course.title.toLowerCase().includes(action.payload.toLowerCase()))
         },
         updateCourseLesson: (state, action)=>{
-            console.log(action.payload.sectionNum)
-            console.log(action.payload.lesson)
             state.course.sections[action.payload.sectionNum].lessons.push(action.payload.lesson)
         }, 
         addUserToCourse:(state, action)=>{
             state.course.users.push(action.payload)
+        },
+        setCategories:(state, action)=>{
+            state.categories = action.payload
+        },
+        filterCoursesByCategory:(state, action)=>{
+            action.payload === "ALL" ?
+            state.coursesByCategory = null
+            :
+            state.coursesByCategory = state.courses.filter((course)=> course.category === action.payload)
+            
         }
     }
 })
 
-const {setCourse, setCourses, updateCourseLesson, addUserToCourse, filterCourses} = slice.actions
+const {setCourse, setCourses, updateCourseLesson, addUserToCourse, filterCourses, setCategories, filterCoursesByCategory} = slice.actions
 
-export {setCourse, setCourses, updateCourseLesson, addUserToCourse, filterCourses}
+export {setCourse, setCourses, updateCourseLesson, addUserToCourse, filterCourses, setCategories, filterCoursesByCategory}
 
 export default slice.reducer
