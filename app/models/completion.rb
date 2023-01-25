@@ -12,7 +12,11 @@ class Completion < ApplicationRecord
         lines_to_split = new_lines.compact_blank
         #puts lines_to_split
         title = lines_to_split.shift
+        category_index = lines_to_split.find_index("Category:")
+        section_1_index = lines_to_split.find_index("Section 1:")
+        category = lines_to_split[category_index..section_1_index-1]
         parsed_response[:title] = title
+        parsed_response[:category] = category[0].split(": ")[1].downcase
         parsed_response[:course] = find_sections(lines_to_split)
         #puts parsed_response
         return parsed_response
@@ -20,6 +24,7 @@ class Completion < ApplicationRecord
 
     def self.generate_course_from_completion(parsed_completion, user_id, topic)
         title = parsed_completion[:title]
+        category = parsed_completion[:category]
         oneA = parsed_completion[:course][:section1][:lesson_a]
         oneB = parsed_completion[:course][:section1][:lesson_b]
         oneC = parsed_completion[:course][:section1][:lesson_c]
@@ -32,7 +37,7 @@ class Completion < ApplicationRecord
         threeB = parsed_completion[:course][:section3][:lesson_b]
         threeC = parsed_completion[:course][:section3][:lesson_c]
 
-        course = Course.create(title: title, user_id: user_id, topic: topic)
+        course = Course.create(title: title, category: category, user_id: user_id, topic: topic)
         
         s1 = course.sections.create(number: 1)
         s2 = course.sections.create(number: 2)
