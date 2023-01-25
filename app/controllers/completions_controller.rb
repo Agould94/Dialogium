@@ -20,6 +20,7 @@ class CompletionsController < ApplicationController
         Include a real and, to the best of your knowledge active link to a youtube video that covers the topic for each lesson.
         Format the syllabus in the following way:
         Title: `Course Title`
+        Category: `The General Category the course fits into`
         Section 1:
         Lesson A: 
         Name: `Lesson Name`
@@ -51,7 +52,6 @@ class CompletionsController < ApplicationController
     end
 
     def generate_lesson
-      binding.pry
       model = "text-davinci-003"
         prompt = 'Write the text for a lesson in and online course on '+ params["topic"] +' on the topic of '+ params["lesson_name"]+', make sure to completely cover everything that goes into'+ params["subject"] +'. Do not add any qualifying statements such as "welcome" or "congratulations" simply provide the lesson text in a detached and emperical voice.'
         
