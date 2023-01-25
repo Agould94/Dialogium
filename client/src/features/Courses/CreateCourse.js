@@ -6,25 +6,36 @@ import {useHistory} from 'react-router-dom'
 
 function CreateCourse(){
     const [topic, setTopic] = useState("")
+    const [loading, setLoading] = useState(false)
     const history = useHistory()
 
     function handleSubmit(e){
         e.preventDefault()
+        setLoading(true)
         fetch(`/completion?topic=${topic}`)
         .then((r)=>r.json())
         .then(list =>{
+            setLoading(false)
             history.push(`/courses/${list.id}`)
         })
     }
     
     return(
         <div>
+        {loading ? 
+        <div>
+            <div>Please wait while we generate this course.</div>
+        </div>
+        :
+        <div>
             <h2>Use This page to Generate a course on any topic of your choosing.</h2>
 
            <form onSubmit = {handleSubmit}>
                 <input type = "text" placeholder="Enter Topic" value = {topic} onChange = {(e)=>setTopic(e.target.value)}></input>
                 <Button variant = "contained" type = "submit">Submit</Button>
-           </form>
+           </form>   
+        </div>
+        }
         </div>
     )
 }
