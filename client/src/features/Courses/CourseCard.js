@@ -27,7 +27,6 @@ function CourseCard({course}) {
     }
 
     const allLessons = course.sections.map((section)=> section.lessons).flat()
-    //console.log(allLessons)
     let firstVideoLesson
     let image = Default
     if (allLessons.some(lesson => lesson.videos.length >0)){
@@ -37,9 +36,6 @@ function CourseCard({course}) {
         }
     }
     
-   
-
-    //const image = course.sections[0].lessons[0].thumbnail || Default
     
   return (
     <Card onClick = {handleCourseClick} sx = {{width: 320}}>
