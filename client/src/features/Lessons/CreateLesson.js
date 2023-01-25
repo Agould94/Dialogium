@@ -29,7 +29,6 @@ function CreateLesson() {
   const history = useHistory()
   
   const course = useSelector(state=>state.courses.course)
-  console.log(course)
 
   const courseId = params.courseId
   const sectionNum = params.sectionNum
@@ -51,7 +50,6 @@ function CreateLesson() {
   }, [])
 
   const videoIds = useSelector(state=>state.videos.videoIds)
-  console.log(videoIds)
   function handleSetName(e){
     setName(e.target.value)
   }

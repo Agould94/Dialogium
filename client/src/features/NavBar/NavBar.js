@@ -21,38 +21,16 @@ import { logout } from '../User/userSlice';
 import { filterCourses } from '../Courses/courseSlice';
 
 
-// const useStyles = makeStyles((theme) =>({
-//     navlinks: {
-//         marginLeft: theme.spacing(5),
-//         display: "flex"
-//     }, 
-//     link: {
-//         textDecoration: "none",
-//         color: "white",
-//         fontSize: "20px",
-//         marginLeft: "1px",
-//         "&:hover": {
-//             color: "yellow",
-//             borderBottom: "1px solid white",
-//         }
-//     }
-// })
-// )
-
 function NavBar() {
-    //const classes = useStyles()
     const dispatch = useDispatch()
     const history = useHistory()
     
-    function handleSearch(e){
-
-    }
 
     function handleLogout(e){
         e.preventDefault()
         fetch('/logout', {method: "DELETE"})
         .then((r)=> {
-            dispatch(logout) 
+            dispatch(logout()) 
             history.push('/')
         })
     }

@@ -36,10 +36,7 @@ function LessonPage() {
     let lesson = useSelector(state=>state.lesson.lesson)
     let lessonVideos = useSelector(state=>state.videos.lessonVideos)
     let user = useSelector(state=>state.user.user)
-    console.log(params)
-    console.log(lesson)
-    console.log(lessonVideos)
-    console.log(course)
+ 
     
     useEffect(()=>{
         if(Object.keys(course).length===0){
@@ -47,7 +44,6 @@ function LessonPage() {
         .then((r)=>r.json())
         .then((course)=>{
             dispatch(setCourse(course))
-            console.log(course)
             dispatch(setLesson(course.sections[sectionNum].lessons[lessonNum]))
             dispatch(setLessonVideos(course.sections[sectionNum].lessons[lessonNum].videos))
             setLoading(false)
@@ -57,12 +53,8 @@ function LessonPage() {
         setLoading(false)
         }
     }, [course, params, dispatch, sectionNum, lessonNum])
-   
-     
-    console.log(params.lessonNum)
 
     
-    console.log(lessonVideos)
     let videosToDisplay 
    if(loading === false && lessonVideos.length > 0){
     videosToDisplay = lessonVideos.map((video)=>{
@@ -116,7 +108,6 @@ function LessonPage() {
         .then((r)=>r.json())
         .then((lesson)=>{
             dispatch(setLesson(lesson))
-                console.log(lesson)
                 setDisplayText(true)
         })
     }
