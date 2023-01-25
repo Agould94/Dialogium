@@ -48,8 +48,15 @@ class UsersController < ApplicationController
 
     def take_course
         user = find_user
-        user.courses.push(Course.find(params["course_id"]))
+        course = Course.find(params["course_id"])
+
+       if user.courses.include?(course)
+        render_already_signed_up_response
+       else
+        user.courses.push(course)
         render json: user
+       end 
+       
     end
 
 
@@ -69,5 +76,9 @@ class UsersController < ApplicationController
 
     def render_unprocessable_entity_response
         render json: {errors: invalid.record.errors}, status: :unprocessable_entity
+    end
+
+    def render_already_signed_up_response
+        render json: {error: "You have already signed up for this course"}, status: :unprocessable_entity
     end
 end
