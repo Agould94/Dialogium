@@ -115,7 +115,7 @@ class Completion < ApplicationRecord
         section_1_index = lines.find_index("Section 1:") 
         section_2_index = lines.find_index("Section 2:") 
         section_3_index = lines.find_index("Section 3:")
-        section_4_index = lines.find_index("Section 4: Further Information") || lines.find_index("Section 4:") || lines.find_index("Further Information:")
+        section_4_index = lines.find_index("Section 4: Further Information") || lines.find_index("Section 4:") || lines.find_index("Further Information:") || lines.find_index("Section 4 (Optional):")
 
         # puts section_1_index
         # puts section_2_index
