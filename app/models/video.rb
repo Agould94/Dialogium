@@ -3,6 +3,9 @@ require 'net/http'
 class Video < ApplicationRecord
     belongs_to :lesson
 
+    validates :url, presence: :true
+    validates :embed_url, presence: :true
+
 
     def self.link_valid?(link)
         key = ENV["YOUTUBE_API_KEY"]

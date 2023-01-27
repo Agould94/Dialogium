@@ -4,4 +4,6 @@ class Lesson < ApplicationRecord
 
     validates :name, presence: true
     validates :subject, presence: true
+
+    validates :text, length: {minimum: 5}
 end
