@@ -104,21 +104,21 @@ function CoursePage(){
         const lessons = section.lessons.map((lesson, lessonIndex)=>{
             return(
                 <Accordion sx = {{borderTop: "1px solid rgba(0,0,0,.5)"}} disableGutters = "true"  >
-                <AccordionSummary id = "panel3d-header">
-                    <Box sx = {{flexGrow: 1}}>{lesson.name}</Box>
-                    <Box>{'\u25BE'}</Box>
-                </AccordionSummary>
-                <AccordionDetails sx = {{display: "flex"}}>
-                    <Box sx = {{ flexGrow: 1}}>
-                        <Typography>{lesson.subject}</Typography>
-                        <Typography>This lesson has: {lesson.videos.length} videos.</Typography>
-                    </Box>
-                    <Box sx={{display: "flex", flexDirection: "column-reverse"}}>
-                    <ThemeProvider theme = {theme}>
-                        <Button sx={{fontSize: '10px', marginLeft: 1, }} variant = "text" size = "small" href = {`/courses/${course.id}/sections/${index}/lessons/${lessonIndex}`}>View Lesson {"\u25B6"}</Button>
-                    </ThemeProvider>
-                    </Box>
-                </AccordionDetails>
+                    <AccordionSummary id = "panel3d-header">
+                        <Box sx = {{flexGrow: 1}}>{lesson.name}</Box>
+                        <Box>{'\u25BE'}</Box>
+                    </AccordionSummary>
+                    <AccordionDetails sx = {{display: "flex"}}>
+                        <Box sx = {{ flexGrow: 1}}>
+                            <Typography>{lesson.subject}</Typography>
+                            <Typography>This lesson has: {lesson.videos.length} videos.</Typography>
+                        </Box>
+                        <Box sx={{display: "flex", flexDirection: "column-reverse"}}>
+                        <ThemeProvider theme = {theme}>
+                            <Button sx={{fontSize: '10px', marginLeft: 1, }} variant = "text" size = "small" href = {`/courses/${course.id}/sections/${index}/lessons/${lessonIndex}`}>View Lesson {"\u25B6"}</Button>
+                        </ThemeProvider>
+                        </Box>
+                    </AccordionDetails>
                 </Accordion>
             )
         })
@@ -158,7 +158,15 @@ function CoursePage(){
                     <Box sx={{marginLeft: 2 }}>
                         <Typography variant="h4">{course.title.slice(6, course.title.length)}</Typography>
                         <Box sx ={{overflow: "auto"}}>
-                            <Box height = {window.innerHeight}>{displaySections}</Box>
+                            <Box height = {window.innerHeight}>
+                                {displaySections}
+                                <Accordion sx = {{display:"flex", borderTop: "1px solid rgba(0,0,0,.5)", justifyContent: "right"}} disableGutters="true">
+                                <AccordionSummary id = "panel3d-header">
+                                    <Typography>Add Section</Typography>
+                                </AccordionSummary>
+                                </Accordion>
+                            </Box>
+                          
                         </Box>
                         
                     </Box>   

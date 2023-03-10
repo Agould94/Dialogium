@@ -5,5 +5,5 @@ class Lesson < ApplicationRecord
     validates :name, presence: true
     validates :subject, presence: true
 
-    validates :text, length: {minimum: 5}
+    validates :text, length: {minimum: 5}, allow_nil: true
 end

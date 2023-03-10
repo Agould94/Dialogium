@@ -110,7 +110,7 @@ function UserProfile({handleLogout}){
                 }
             </Box>
             <Divider variant = "middle">Created Courses</Divider>
-            <Box sx={{display: "flex", paddingTop: 2, paddingBottom: 2, paddingLeft: 3, flexDirection:'row', justifyContent: 'flex-start'}}>
+            <Box sx={{display: "flex", paddingTop: 2, paddingBottom: 2, paddingLeft: 3, flexDirection:'row', justifyContent: 'flex-start', overflowX: 'auto'}}>
                 {createdCourses ?
                     createdCourses
                 :

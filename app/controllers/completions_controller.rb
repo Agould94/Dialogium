@@ -47,7 +47,7 @@ class CompletionsController < ApplicationController
         completion = Completion.create(prompt: prompt, text: completions["choices"][0]["text"], topic: params[:topic], prompt_tokens: completions["usage"]["prompt_tokens"], completion_tokens: completions["usage"]["completion_tokens"], total_tokens: completions["usage"]["total_tokens"] )
         
         course = Completion.generate_course_from_completion(completion.parse_completion, current_user.id, params[:topic])
-        render json: course
+        render json: course, include: ['sections', 'sections.lessons', 'sections.lessons.videos']
 
     end
 
